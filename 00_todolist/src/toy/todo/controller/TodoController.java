@@ -93,7 +93,7 @@ public class TodoController {
 	} // 할 일 추가하기 끝
 
 	public void updateTodo() {
-		
+		int num = view.getNo("할 일 수정하기", "수정");
 	} // 할 일 수정하기 끝
 
 	public void deleteTodo() {
