@@ -8,18 +8,16 @@ import java.sql.Statement;
 
 public class JDBCTemplate {
 
-	//Connection 객체를 생성해서 리턴하는 메소드
+	// Connection 객체를 생성해서 리턴하는 메소드
 	public static Connection getConnection() {
 		Connection conn = null;
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			conn = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:xe","jdbc","1234");
-			conn.setAutoCommit(false);//자동으로 commit하는 기능 비활성화
+			conn.setAutoCommit(false); // 자동으로 commit하는 기능 비활성화
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return conn;
@@ -31,7 +29,6 @@ public class JDBCTemplate {
 				conn.commit();
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -41,7 +38,6 @@ public class JDBCTemplate {
 				conn.rollback();
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -51,7 +47,6 @@ public class JDBCTemplate {
 				conn.close();
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -61,7 +56,6 @@ public class JDBCTemplate {
 				pstmt.close();
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -71,7 +65,6 @@ public class JDBCTemplate {
 				rset.close();
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

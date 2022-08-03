@@ -75,6 +75,18 @@ public class TodoView {
 		t.setStatus(sc.next());
 		return t;
 	}
+
+	public Todo updateTodo(Todo t) {
+		System.out.println("\n===== 할 일 수정하기 =====\n");
+		System.out.print("할 일 : ");
+		sc.nextLine();
+		t.setTitle(sc.nextLine());
+		System.out.print("상세 내용 : ");
+		t.setContent(sc.nextLine());
+		System.out.print("중요도 [중요 / 보통 / 여유] : ");
+		t.setStatus(sc.next());
+		return t;
+	}
 	////////////////////////////////////////////// 기타 메세지
 	
 	public void exit() {
@@ -106,6 +118,7 @@ public class TodoView {
 		System.out.print(str2 + "할 할 일 번호를 입력하세요. >>> ");
 		return sc.nextInt();
 	}
+
 
 
 

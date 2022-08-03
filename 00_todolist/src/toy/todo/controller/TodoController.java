@@ -94,10 +94,33 @@ public class TodoController {
 
 	public void updateTodo() {
 		int num = view.getNo("할 일 수정하기", "수정");
+		Todo t = service.selectOneTodo(num);
+		if(t == null) {
+			view.wrongTodo();
+		} else {
+			t = view.updateTodo(t);
+			int result = service.updateTodo(t);
+			if(result > 0) {
+				view.success("할 일 수정");
+			} else {
+				view.fail("할 일 수정");
+			}
+		}
 	} // 할 일 수정하기 끝
 
 	public void deleteTodo() {
-		
+		int num = view.getNo("할 일 삭제하기", "삭제");
+		Todo t = service.selectOneTodo(num);
+		if(t == null) {
+			view.wrongTodo();
+		} else {
+			int result = service.deleteTodo(t.getNo());
+			if(result > 0) {
+				view.success("할 일 삭제");
+			} else {
+				view.fail("할 일 삭제");
+			}
+		}
 	} // 할 일 삭제하기 끝
 
 	public void selectAllComTodo() {

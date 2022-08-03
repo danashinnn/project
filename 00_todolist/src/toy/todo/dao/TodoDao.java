@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
 import common.JDBCTemplate;
@@ -15,7 +16,7 @@ public class TodoDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		ArrayList<Todo> list = new ArrayList<Todo>();
-		String query = "select * from todo";
+		String query = "select * from todo order by 1";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -76,6 +77,8 @@ public class TodoDao {
 			pstmt.setString(2, t.getContent());
 			pstmt.setString(3, t.getStatus());
 			result = pstmt.executeUpdate();
+		} catch (SQLIntegrityConstraintViolationException sqle) {
+			System.out.println("중요도는 [중요 / 보통 / 여유] 중에서 입력해주세요.");			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -84,5 +87,42 @@ public class TodoDao {
 		return result;
 	}
 
+	public int updateTodo(Connection conn, Todo t) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "update todo set title = ?, content = ?, status = ? where no = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, t.getTitle());
+			pstmt.setString(2, t.getContent());
+			pstmt.setString(3, t.getStatus());
+			pstmt.setInt(4, t.getNo());
+			result = pstmt.executeUpdate();
+		} catch (SQLIntegrityConstraintViolationException sqle) {
+			System.out.println("중요도는 [중요 / 보통 / 여유] 중에서 입력해주세요.");			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
 
+	public int deleteTodo(Connection conn, int no) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "delete from todo where no = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, no);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
 }

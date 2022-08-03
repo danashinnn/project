@@ -1,7 +1,6 @@
 package toy.todo.service;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import common.JDBCTemplate;
@@ -43,6 +42,27 @@ public class TodoService {
 		return result;
 	}
 
-	
-	
+	public int updateTodo(Todo t) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = dao.updateTodo(conn, t);
+		if (result > 0) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
+	public int deleteTodo(int no) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = dao.deleteTodo(conn, no);
+		if (result > 0) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
 }
