@@ -5,6 +5,7 @@ import java.sql.Date;
 public class Complete {
 
 	private int comNo;
+	private int todoNo;
 	private String comTitle;
 	private String comContent;
 	private Date startDate;
@@ -14,9 +15,10 @@ public class Complete {
 		super();
 	}
 
-	public Complete(int comNo, String comTitle, String comContent, Date startDate, Date endDate) {
+	public Complete(int comNo, int todoNo, String comTitle, String comContent, Date startDate, Date endDate) {
 		super();
 		this.comNo = comNo;
+		this.todoNo = todoNo;
 		this.comTitle = comTitle;
 		this.comContent = comContent;
 		this.startDate = startDate;
@@ -29,6 +31,14 @@ public class Complete {
 
 	public void setComNo(int comNo) {
 		this.comNo = comNo;
+	}
+
+	public int getTodoNo() {
+		return todoNo;
+	}
+
+	public void setTodoNo(int todoNo) {
+		this.todoNo = todoNo;
 	}
 
 	public String getComTitle() {

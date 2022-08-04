@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import common.JDBCTemplate;
 import toy.todo.dao.TodoDao;
+import toy.todo.vo.Complete;
 import toy.todo.vo.Todo;
 
 public class TodoService {
@@ -54,15 +55,27 @@ public class TodoService {
 		return result;
 	}
 
-	public int deleteTodo(int no) {
+	public int deleteTodo(Todo t) {
 		Connection conn = JDBCTemplate.getConnection();
-		int result = dao.deleteTodo(conn, no);
+		int result = dao.insertComplete(conn, t);
 		if (result > 0) {
-			JDBCTemplate.commit(conn);
+			int result2 = dao.deleteTodo(conn, t.getNo());
+			if(result2 > 0) {
+				JDBCTemplate.commit(conn);				
+			} else {
+				JDBCTemplate.rollback(conn);				
+			}
 		} else {
 			JDBCTemplate.rollback(conn);
 		}
 		JDBCTemplate.close(conn);
 		return result;
+	}
+	
+	public ArrayList<Complete> selectAllComTodo() {
+		Connection conn = JDBCTemplate.getConnection();
+		ArrayList<Complete> list = dao.selectAllComTodo(conn);
+		JDBCTemplate.close(conn);
+		return list;
 	}
 }

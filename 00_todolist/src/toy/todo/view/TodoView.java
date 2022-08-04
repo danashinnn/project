@@ -3,6 +3,7 @@ package toy.todo.view;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import toy.todo.vo.Complete;
 import toy.todo.vo.Todo;
 
 public class TodoView {
@@ -34,8 +35,8 @@ public class TodoView {
 		System.out.println("2. 상세 내용 보기");
 		System.out.println("3. 할 일 추가하기");
 		System.out.println("4. 할 일 수정하기");
-		System.out.println("5. 할 일 삭제하기");
-		System.out.println("6. 완료한 목록 보기");
+		System.out.println("5. 할 일 완료하기");
+		System.out.println("6. 완료 목록 보기");
 		System.out.println("0. 프로그램 종료하기");
 		System.out.print("선택 >>> ");
 		return sc.nextInt();
@@ -87,6 +88,17 @@ public class TodoView {
 		t.setStatus(sc.next());
 		return t;
 	}
+	
+	public void selectAllComTodo(ArrayList<Complete> list) {
+		System.out.println("\n===== 전체 목록 보기 =====\n");
+		System.out.println("No.\t완료된 할 일");
+		System.out.println("=======================");
+		for(Complete c : list) {
+			System.out.print(c.getComNo() + "\t");
+			System.out.println(c.getComTitle());
+		}
+	}
+	
 	////////////////////////////////////////////// 기타 메세지
 	
 	public void exit() {
@@ -105,8 +117,8 @@ public class TodoView {
 		System.out.println(str + " 실패. 다시 시도해주세요.");
 	}
 
-	public void noTodo() {
-		System.out.println("등록된 할 일이 없습니다.");
+	public void noTodo(String str) {
+		System.out.println(str + "된 할 일이 없습니다.");
 	}
 
 	public void wrongTodo() {
@@ -118,13 +130,4 @@ public class TodoView {
 		System.out.print(str2 + "할 할 일 번호를 입력하세요. >>> ");
 		return sc.nextInt();
 	}
-
-
-
-
-
-
-
-	
-	
 }

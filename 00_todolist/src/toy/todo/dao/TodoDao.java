@@ -8,6 +8,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
 import common.JDBCTemplate;
+import toy.todo.vo.Complete;
 import toy.todo.vo.Todo;
 
 public class TodoDao {
@@ -124,5 +125,53 @@ public class TodoDao {
 			JDBCTemplate.close(pstmt);
 		}
 		return result;
+	}
+
+	public int insertComplete(Connection conn, Todo t) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "insert into complete values(SEQ_COMPLETE.nextval, ?, ?, ?, ?, sysdate)";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, t.getNo());
+			pstmt.setString(2, t.getTitle());
+			pstmt.setString(3, t.getContent());
+			pstmt.setDate(4, t.getWriteDate());
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+	
+	public ArrayList<Complete> selectAllComTodo(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Complete> list = new ArrayList<Complete>();
+		String query = "select * from complete order by 1";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				Complete c = new Complete();
+				c.setComNo(rset.getInt(1));
+				c.setTodoNo(rset.getInt(2));
+				c.setComTitle(rset.getString(3));
+				c.setComContent(rset.getString(4));
+				c.setStartDate(rset.getDate(5));
+				c.setEndDate(rset.getDate(6));
+				list.add(c);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+			JDBCTemplate.close(rset);
+		}
+		return list;
 	}
 }

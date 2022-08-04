@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import toy.todo.service.TodoService;
 import toy.todo.view.TodoView;
+import toy.todo.vo.Complete;
 import toy.todo.vo.Todo;
 
 public class TodoController {
@@ -66,7 +67,7 @@ public class TodoController {
 	public void selectAllTodo() {
 		ArrayList<Todo> list = service.selectAllTodo();
 		if(list.isEmpty()) {
-			view.noTodo();
+			view.noTodo("등록");
 		} else {
 			view.selectAllTodo(list);
 		}
@@ -109,21 +110,26 @@ public class TodoController {
 	} // 할 일 수정하기 끝
 
 	public void deleteTodo() {
-		int num = view.getNo("할 일 삭제하기", "삭제");
+		int num = view.getNo("할 일 완료하기", "완료");
 		Todo t = service.selectOneTodo(num);
 		if(t == null) {
 			view.wrongTodo();
 		} else {
-			int result = service.deleteTodo(t.getNo());
+			int result = service.deleteTodo(t);
 			if(result > 0) {
-				view.success("할 일 삭제");
+				view.success("할 일 완료");
 			} else {
-				view.fail("할 일 삭제");
+				view.fail("할 일 완료");
 			}
 		}
 	} // 할 일 삭제하기 끝
 
 	public void selectAllComTodo() {
-		
+		ArrayList<Complete> list = service.selectAllComTodo();
+		if(list.isEmpty()) {
+			view.noTodo("완료");
+		} else {
+			view.selectAllComTodo(list);
+		}
 	} // 완료한 목록 보기 끝
 }
